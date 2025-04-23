@@ -1,90 +1,38 @@
-SELECT * FROM sql_hr.employees;
-select * from sql_store.customers;
-select * from sql_store.customers where city='Hampton';
-select * from sql_store.customers where city='Hampton' or 'Chicago';
-select * from sql_store.customers where city='Hampton' and 'Chicago';
-select * from sql_store.customers where city='Chicago';
-select count(*)  from sql_store.customers where city='Chicago';
-select * from store.customers;
-select * from store.orders;
-#Adding primary key but wont happen in this code line coz primary key already exists
-ALTER TABLE orders ADD PRIMARY KEY (order_date);
-#Dropping primary key
-alter table store.orders drop primary key;
-#NOT NULL Constraint
-ALTER TABLE orders
-MODIFY customer_id int NOT NULL;
-#Date
-SELECT * FROM Orders WHERE Order_date='2008-11-11';
-SELECT * FROM Orders WHERE Order_date='2018-06-08';
-#Adding unique 
-ALTER TABLE orders ADD UNIQUE (order_date);
-#Check constraint
-ALTER TABLE orders
-ADD CHECK (order_date BETWEEN '2018-01-01' AND '2018-12-31');
-#Latest order date
-SELECT order_date, COUNT(*) AS total_orders
-FROM orders
-GROUP BY order_date
-ORDER BY total_orders DESC
-LIMIT 1;
-#Earliest order date
-SELECT order_date, COUNT(*) AS total_orders
-FROM orders
-GROUP BY order_date
-ORDER BY total_orders ASC
-LIMIT 2;
-#Recent order date 
-SELECT MAX(order_date) AS most_recent_order_date
-FROM orders;
-#Rows with the most recent date
-SELECT *
-FROM orders
-WHERE order_date = (
-    SELECT MAX(order_date) FROM orders
-);
-#Most 2 recent oreder
-SELECT *
-FROM orders
-ORDER BY order_date DESC
-LIMIT 2;
-# 2 Distinct recent date
-SELECT o.*
-FROM orders o
-JOIN (
-    SELECT DISTINCT order_date
-    FROM orders
-    ORDER BY order_date DESC
-    LIMIT 2
-) AS recent_dates
-ON o.order_date = recent_dates.order_date
-ORDER BY o.order_date DESC;
-#Default constraint on alter table
-ALTER TABLE orders
-ALTER comments SET DEFAULT 'Well done';
-# Default on creating the table
-CREATE TABLE orders (
-    order_date date DEFAULT (current_date())
-);#Will throw error cox table orders already exists
-ALTER TABLE orders
-ALTER comments drop default;#Dropping the default value
-## Inserting a new record though dont have this table person just used to illustrate insert into
-INSERT INTO Persons (FirstName,LastName)
-VALUES ('Lars','Monsen');
-#Auto increment
-CREATE TABLE Persons (
-    ID INT NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(50),
-    PRIMARY KEY (ID)
-);
-#An existing table
-ALTER TABLE Persons
-MODIFY COLUMN ID INT NOT NULL AUTO_INCREMENT;
 
 
+DROP DATABASE IF EXISTS `testDB`;
+CREATE DATABASE `testDB`;
+USE `testDB`;
+CREATE TABLE `tblFinanceNew` (
+  `StudentID` int NOT NULL PRIMARY KEY,
+  `Tuition_Fee` varchar(50) NOT NULL,
+  `Administration_Fee` varchar(50) NOT NULL,
+  `Exams_Fee` int NOT NULL,
+  `Medical_Fee` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO `tblFinanceNew` VALUES (235,'30,000','5,000',3000,4000);
+INSERT INTO `tblFinanceNew` VALUES (26,'40,000','5,000',2000,4000);
+INSERT INTO `tblFinanceNew` VALUES (1,'34,000','5,000',3000,4000);
+INSERT INTO `tblFinanceNew` VALUES (2,'23,000','5,000',3000,4000);
+INSERT INTO `tblFinanceNew` VALUES (3,'20,000','5,000',3000,4000);
+INSERT INTO `tblFinanceNew` VALUES (29,'35,000','5,000',2000,4000);
+INSERT INTO `tblFinanceNew` VALUES (127,'28,000','5,000',3000,4000);
 
-
+CREATE TABLE `tblstudent` (
+  `StudentName` varchar(50) NOT NUll,
+  `StudentID` int NOT NULL,
+  `Birthdate` varchar(50) NOT NULL,
+  `Year` varchar(50) NOT NULL,
+  `MobileNo` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `tblstudent` VALUES ('Jane',235,'12/1/1987','Y1S2',0722245321);
+INSERT INTO `tblstudent` VALUES ('Nicholas',26,'22/7/2002','Y1S1',072045867);
+INSERT INTO `tblstudent` VALUES ('Cyrus',1,'15/6/1989','Y2S1',0733765987);
+INSERT INTO `tblstudent` VALUES ('Neema',2,'29/11/2008','Y2S1',0732568448);
+INSERT INTO `tblstudent` VALUES ('Caroline',3,'18/10/2002','Y1S1',0782569360);
+INSERT INTO `tblstudent` VALUES ('Judith',29,'19/6/2003','Y1S2',0722245321);
+INSERT INTO `tblstudent` VALUES ('Grace',127,'14/1/2000','Y1S2',0733765987);
 
 
 
